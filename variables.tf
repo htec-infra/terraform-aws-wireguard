@@ -1,5 +1,5 @@
 variable "context" {
-  description = "What is this project related to?"
+  description = "Project namespace"
 }
 
 variable "cost_center" {
@@ -59,7 +59,7 @@ variable "key_pair_name" {
 }
 
 variable "subspace_ipv4_network" {
-  description = "Internal VPN network space. Must match one of the subnets ranges."
+  description = "Internal VPN network space utilized by Wireguard server to maintain clients' identifiers."
 }
 
 variable "subspace_version" {
