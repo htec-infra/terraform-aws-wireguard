@@ -24,3 +24,9 @@ Thumbs.db
 *.exe
 *.war
 
+# Terraform files
+**/.terraform/*
+**/.terraform.lock.hcl
+*.tfstate
+*.tfstate.*
+*.tfvars
