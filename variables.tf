@@ -1,16 +1,25 @@
-variable "context" {}
+variable "context" {
+  description = "Project namespace"
+}
 
 variable "cost_center" {
   type = string
+  description = "Resource tag for easier billing search and reports"
 }
 
 variable "iam_prefix" {
   type = string
+  description = "Prefix for IAM roles"
 }
 
 variable "environment" {
   type = string
+  description = "Full environment name tag (e.g. Development, Staging, Production)"
+}
 
+variable "env_code" {
+  type = string
+  description = "Short environment name tag (e.g. dev, stg, prod)"
 }
 
 variable "root_domain" {
@@ -23,7 +32,7 @@ variable "create_vpn" {
 }
 
 variable "vpc_id" {
-  description = "VPC used to instantiate EC2 for VPN server"
+  description = "VPC used to instantiate EC2 for VPN server. It has to contain 3 subnets with tags Tier:Public"
 }
 
 variable "instance_type" {
@@ -50,7 +59,7 @@ variable "key_pair_name" {
 }
 
 variable "subspace_ipv4_network" {
-  description = "Internal VPN network space"
+  description = "Internal VPN network space utilized by Wireguard server to maintain clients' identifiers."
 }
 
 variable "subspace_version" {
