@@ -4,7 +4,7 @@ resource "aws_iam_instance_profile" "vpn" {
 }
 
 resource "aws_iam_role" "vpn" {
-  name               = "WgVpnInstanceProfile"
+  name               = "${var.iam_prefix}WgVpnInstanceProfile"
   assume_role_policy = data.aws_iam_policy_document.vpn.json
 }
 
