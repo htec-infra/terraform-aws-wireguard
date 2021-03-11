@@ -5,13 +5,13 @@ mkdir /opt/subspace
 cat <<CONTENT >> /opt/subspace/app.sh
 #/bin/bash
 
-docker stop $(docker ps -a -q)
+docker stop \$(docker ps -a -q)
 
-docker rm $(docker ps -a -q)
+docker rm \$(docker ps -a -q)
 
 docker system prune -f
 
-docker rmi $(docker images -a -q)
+docker rmi \$(docker images -a -q)
 
 docker create \
     --name subspace \
@@ -29,11 +29,11 @@ docker create \
 
 docker start subspace
 
-lineNum=$(docker exec subspace sh -c "sed -n '/^# dnsmasq service/=' /usr/local/bin/entrypoint.sh")
+lineNum=\$(docker exec subspace sh -c "sed -n '/^# dnsmasq service/=' /usr/local/bin/entrypoint.sh")
 
-lineEndNum=$(docker exec subspace sh -c "sed -n '/^# subspace service/=' /usr/local/bin/entrypoint.sh")
+lineEndNum=\$(docker exec subspace sh -c "sed -n '/^# subspace service/=' /usr/local/bin/entrypoint.sh")
 
-docker exec -it subspace sh -c "sed -i /usr/local/bin/entrypoint.sh -re '$((lineNum)),$((lineEndNum - 1))d'"
+docker exec -it subspace sh -c "sed -i /usr/local/bin/entrypoint.sh -re '\$((lineNum)),\$((lineEndNum - 1))d'"
 
 docker exec -it subspace sh -c "rm -rf /etc/service/dnsmasq"
 
