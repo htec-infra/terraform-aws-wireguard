@@ -33,9 +33,9 @@ lineNum=\$(docker exec subspace sh -c "sed -n '/^# dnsmasq service/=' /usr/local
 
 lineEndNum=\$(docker exec subspace sh -c "sed -n '/^# subspace service/=' /usr/local/bin/entrypoint.sh")
 
-docker exec -it subspace sh -c "sed -i /usr/local/bin/entrypoint.sh -re '\$((lineNum)),\$((lineEndNum - 1))d'"
+docker exec subspace sh -c "sed -i /usr/local/bin/entrypoint.sh -re '\$((lineNum)),\$((lineEndNum - 1))d'"
 
-docker exec -it subspace sh -c "rm -rf /etc/service/dnsmasq"
+docker exec subspace sh -c "rm -rf /etc/service/dnsmasq"
 
 docker stop subspace
 
