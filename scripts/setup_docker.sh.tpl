@@ -26,5 +26,5 @@ add-apt-repository \
 apt update
 apt install -y docker-ce docker-ce-cli containerd.io
 
-groupadd docker
+group add docker
 usermod -aG docker ubuntu
