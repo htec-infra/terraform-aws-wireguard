@@ -2,17 +2,21 @@ data "aws_region" "current" {}
 
 data "aws_availability_zones" "this" {}
 
-data "aws_subnet_ids" "public" {
-  vpc_id = var.vpc_id
+//data "aws_subnet_ids" "public" {
+//  vpc_id = var.vpc_id
+//
+//  tags = {
+//    Tier = "Public"
+//  }
+//}
 
-  tags = {
-    Tier = "Public"
-  }
-}
+//data "aws_subnet" "public" {
+//  count = 3
+//  id    = tolist(data.aws_subnet_ids.public.ids)[count.index]
+//}
 
-data "aws_subnet" "public" {
-  count = 3
-  id    = tolist(data.aws_subnet_ids.public.ids)[count.index]
+data "aws_subnet" "this" {
+  id = var.subnet_ids[0]
 }
 
 data "template_cloudinit_config" "userdata" {

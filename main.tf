@@ -1,6 +1,6 @@
 
 
-data "aws_ami" "ubuntu" {
+data "aws_ami" "wgserver" {
   most_recent = true
 
   filter {
@@ -24,7 +24,7 @@ data "aws_ami" "ubuntu" {
 resource "aws_security_group" "vpn" {
   name        = "vpn-server-entry-point"
   description = "Allows SSH, HTTP/HTTPS and WireGuard VPN traffic"
-  vpc_id      = var.vpc_id
+  vpc_id      = data.aws_subnet.this.vpc_id
 
   ingress {
     protocol         = "TCP"
@@ -70,29 +70,30 @@ resource "aws_security_group" "vpn" {
   }
 }
 
-resource "aws_instance" "vpn" {
-  ami           = data.aws_ami.ubuntu.id
-  instance_type = var.instance_type
-  key_name      = var.key_pair_name
+//resource "aws_instance" "vpn" {
+//  ami           = data.aws_ami.wgserver.id
+//  instance_type = var.instance_type
+//  key_name      = var.key_pair_name
+//
+//  subnet_id              = data.aws_subnet.public[0].id
+//  vpc_security_group_ids = concat(var.security_group_id, [aws_security_group.vpn.id])
+//
+//  iam_instance_profile = aws_iam_instance_profile.vpn.name
+//  user_data_base64     = data.template_cloudinit_config.userdata.rendered
+//
+//  tags = {
+//    Name        = "WireGuard VPN"
+//    Context     = var.context
+//    CostCenter  = var.cost_center
+//    Environment = var.environment
+//  }
+//
+//  lifecycle {
+//    ignore_changes = [ami, user_data_base64]
+//  }
+//}
 
-  subnet_id              = data.aws_subnet.public[0].id
-  vpc_security_group_ids = concat(var.security_group_id, [aws_security_group.vpn.id])
-
-  iam_instance_profile = aws_iam_instance_profile.vpn.name
-  user_data_base64     = data.template_cloudinit_config.userdata.rendered
-
-  tags = {
-    Name        = "WireGuard VPN"
-    Context     = var.context
-    CostCenter  = var.cost_center
-    Environment = var.environment
-  }
-
-  lifecycle {
-    ignore_changes = [ami, user_data_base64]
-  }
-}
-
+// TODO: Replace with ASG
 
 resource "aws_eip" "vpn" {
   vpc      = true

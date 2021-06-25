@@ -4,7 +4,7 @@ resource "aws_iam_instance_profile" "vpn" {
 }
 
 resource "aws_iam_role" "vpn" {
-  name               = "${var.iam_prefix}WgVpnInstanceProfile"
+  name               = "${local.iam_prefix}WgVpnInstanceProfile"
   assume_role_policy = data.aws_iam_policy_document.vpn.json
 }
 
@@ -12,6 +12,12 @@ resource "aws_iam_role_policy_attachment" "vpn_ssm_core" {
   role       = aws_iam_role.vpn.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
 }
+
+resource "aws_iam_role_policy_attachment" "vpn_ssm_core" {
+  role       = aws_iam_role.vpn.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+}
+
 
 data "aws_iam_policy_document" "vpn" {
   statement {
