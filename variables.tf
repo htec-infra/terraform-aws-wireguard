@@ -7,11 +7,6 @@ variable "cost_center" {
   description = "Resource tag for easier billing search and reports"
 }
 
-//variable "iam_prefix" {
-//  type        = string
-//  description = "Prefix for IAM roles"
-//}
-
 variable "environment" {
   type        = string
   description = "Full environment name tag (e.g. Development, Staging, Production)"
@@ -27,23 +22,16 @@ variable "root_domain" {
   description = "Domain name used to generate URL for Subspace UI"
 }
 
-//variable "create_vpn" {
-//  default = false
-//}
-
-//variable "vpc_id" {
-//  description = "VPC used to instantiate EC2 for VPN server. It has to contain 3 subnets with tags Tier:Public"
-//  validation {
-//    condition     = length(var.vpc_id) > 4 && substr(var.vpc_id, 0, 4) == "vpc-"
-//    error_message = "The vpc_id value must be a valid VPC id, starting with \"vpc-\"."
-//  }
-//}
+variable "additional_tags" {
+  type        = map(string)
+  description = ""
+  default     = {}
+}
 
 variable "subnet_ids" {
   description = "VPC subnet(s) identifier where to instantiate VPN server. Min 1 subnet id is required"
   type        = list(string)
 }
-
 
 variable "instance_type" {
   type        = string
@@ -68,8 +56,25 @@ variable "key_pair_name" {
   description = "EC2 instance keyname that can be used for SSH access directly to the EC2 instance or as a Jump host as a VPN alternative."
 }
 
-variable "subspace_ipv4_network" {
+variable "wg_ipv4_network" {
   description = "Internal VPN network space utilized by Wireguard server to maintain clients' identifiers."
+}
+
+variable "wg_allowed_ips" {
+  type        = list(string)
+  default     = []
+  description = "CIDR format of allowed ip addresses used on the WireGuard client to route the traffic correctly. By default, VPC CIDR will be used."
+}
+
+variable "subspace_subdomain" {
+  type        = string
+  default     = "vpn"
+  description = ""
+}
+
+variable "subspace_nameservers" {
+  type    = list(string)
+  default = []
 }
 
 variable "subspace_image" {
@@ -84,9 +89,17 @@ variable "subspace_version" {
   description = "Version of the Subspace UI docker image."
 }
 
-variable "subspace_allowed_ips" {
-  type        = list(string)
-  default     = []
-  description = "CIDR format of allowed ip addresses used on the WireGuard client to route the traffic correctly. By default, VPC CIDR will be used."
+variable "subspace_container_cpu" {
+  type    = number
+  default = 1500
 }
 
+variable "subspace_container_memory" {
+  type    = number
+  default = 725
+}
+
+variable "subspace_theme" {
+  type    = string
+  default = "green"
+}

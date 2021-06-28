@@ -13,11 +13,10 @@ resource "aws_iam_role_policy_attachment" "vpn_ssm_core" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
 }
 
-resource "aws_iam_role_policy_attachment" "vpn_ssm_core" {
+resource "aws_iam_role_policy_attachment" "vpn_container_service" {
   role       = aws_iam_role.vpn.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role"
 }
-
 
 data "aws_iam_policy_document" "vpn" {
   statement {
@@ -34,3 +33,19 @@ data "aws_iam_policy_document" "vpn" {
   }
 }
 
+resource "aws_iam_role_policy" "inline" {
+  name_prefix = "CustomPermissions-"
+  role        = aws_iam_role.vpn.id
+  policy      = data.aws_iam_policy_document.inline.json
+}
+
+data "aws_iam_policy_document" "inline" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "ec2:DescribeAddresses",
+      "ec2:AssociateAddress"
+    ]
+    resources = ["*"]
+  }
+}
