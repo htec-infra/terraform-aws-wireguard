@@ -3,7 +3,7 @@ data "aws_route53_zone" "main" {
 }
 
 locals {
-  domain_prefix = var.per_region_domain_name ? "vpn.${data.aws_region.current.name}" : "vpn"
+  domain_prefix = var.per_region_domain_name ? "${var.subspace_subdomain}.${data.aws_region.current.name}" : var.subspace_subdomain
   fqdn          = format("%s.%s", local.domain_prefix, var.root_domain)
   iam_prefix    = title(var.namespace)
 }

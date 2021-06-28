@@ -1,10 +1,10 @@
 resource "aws_iam_instance_profile" "vpn" {
-  name = "WgVpnInstanceProfile"
-  role = aws_iam_role.vpn.name
+  name_prefix = "WgVpnInstanceProfile"
+  role        = aws_iam_role.vpn.name
 }
 
 resource "aws_iam_role" "vpn" {
-  name               = "${local.iam_prefix}WgVpnInstanceProfile"
+  name_prefix        = "${local.iam_prefix}WgVpnInstanceProfile"
   assume_role_policy = data.aws_iam_policy_document.vpn.json
 }
 

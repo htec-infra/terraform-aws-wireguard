@@ -2,7 +2,7 @@ data "template_file" "taskdef_wg" {
   template = file("${path.module}/templates/taskdef-wg.tpl")
 
   vars = {
-    subspace_image   = join(":", var.subspace_image, var.subspace_version)
+    subspace_image   = join(":", [var.subspace_image, var.subspace_version])
     container_cpu    = var.subspace_container_cpu
     container_memory = var.subspace_container_memory
     loggroup_path    = local.loggroup_path
@@ -10,7 +10,7 @@ data "template_file" "taskdef_wg" {
 
     envs = jsonencode([for key, value in local.envs : {
       Name : key,
-      Value : value
+      Value : tostring(value)
     }])
   }
 }
@@ -54,14 +54,14 @@ resource "aws_ecs_task_definition" "wg_subspace" {
   requires_compatibilities = ["EC2"]
 
   volume {
-    name = wgdata
+    name = "wgdata"
     efs_volume_configuration {
       file_system_id = aws_efs_file_system.wg.id
     }
   }
 
   volume {
-    name = wgdnsmasq
+    name = "wgdnsmasq"
     efs_volume_configuration {
       file_system_id = aws_efs_file_system.wg.id
     }

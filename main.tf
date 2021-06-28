@@ -22,8 +22,29 @@ resource "aws_efs_file_system" "wg" {
   }
 }
 
+resource "aws_efs_mount_target" "wg" {
+  for_each = toset(var.subnet_ids)
+
+  file_system_id  = aws_efs_file_system.wg.id
+  security_groups = [aws_security_group.wg_efs.id]
+  subnet_id       = each.key
+}
+
+resource "aws_security_group" "wg_efs" {
+  name_prefix = local.cluster_name
+  vpc_id      = data.aws_subnet.this.vpc_id
+
+  ingress {
+    protocol        = "TCP"
+    from_port       = 2049
+    to_port         = 2049
+    security_groups = [aws_security_group.vpn.id]
+    description     = ""
+  }
+}
+
 resource "aws_security_group" "vpn" {
-  name        = "vpn-server-entry-point"
+  name_prefix = "vpn-server-entry-point-"
   description = "Allows SSH, HTTP/HTTPS and WireGuard VPN traffic"
   vpc_id      = data.aws_subnet.this.vpc_id
 
@@ -82,7 +103,7 @@ data "template_cloudinit_config" "user_data" {
   part {
     filename     = "associate-ip.sh"
     content_type = "text/x-shellscript"
-    content = templatefile("${path.module}/templates/associate-ip.sh", {
+    content = templatefile("${path.module}/templates/associate-eip.sh", {
       ADDR_HANDLER_ID = random_password.handler_id.result
     })
   }

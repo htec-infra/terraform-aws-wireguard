@@ -4,9 +4,9 @@ locals {
 
   loggroup_path = "/ecs/wireguard-vpn-server"
 
-  wg_allowed_ips = join(", ", concat(var.wg_allowed_ips, var.wg_ipv4_network))
+  wg_allowed_ips = join(", ", concat(var.wg_allowed_ips, [data.aws_vpc.this.cidr_block, var.wg_ipv4_network]))
 
-  subspace_ns = join(",", length(var.subspace_nameservers) > 0 ? var.subspace_nameservers : cidrhost(data.aws_vpc.this.cidr_block, 2))
+  subspace_ns = join(",", length(var.subspace_nameservers) > 0 ? var.subspace_nameservers : [cidrhost(data.aws_vpc.this.cidr_block, 2)])
 
   envs = {
     SUBSPACE_HTTP_HOST        = local.fqdn
