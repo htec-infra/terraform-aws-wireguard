@@ -26,6 +26,14 @@
         "awslogs-region": "${app_region}",
         "awslogs-stream-prefix": "ecs"
       }
+    },
+    "linuxParameters": {
+      "capabilities": {
+        "add": [
+          "NET_ADMIN"
+        ],
+        "drop": null
+      }
     }
   }
 ]
