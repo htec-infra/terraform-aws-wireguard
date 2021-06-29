@@ -31,7 +31,7 @@ resource "aws_efs_mount_target" "wg" {
 }
 
 resource "aws_security_group" "wg_efs" {
-  name_prefix = local.cluster_name
+  name_prefix = "wireguard-efs-mount-target-"
   vpc_id      = data.aws_subnet.this.vpc_id
 
   ingress {
@@ -40,6 +40,10 @@ resource "aws_security_group" "wg_efs" {
     to_port         = 2049
     security_groups = [aws_security_group.vpn.id]
     description     = ""
+  }
+
+  lifecycle {
+    create_before_destroy = true
   }
 }
 
@@ -89,6 +93,10 @@ resource "aws_security_group" "vpn" {
     from_port   = 0
     to_port     = 0
     cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  lifecycle {
+    create_before_destroy = true
   }
 }
 
