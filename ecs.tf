@@ -38,7 +38,7 @@ data "aws_ami" "vpn" {
   }
 }
 
-
+#tfsec:ignore:AWS089
 resource "aws_cloudwatch_log_group" "vpn" {
   name              = local.loggroup_path
   retention_in_days = var.logs_retention_period
