@@ -51,9 +51,10 @@ variable "per_region_domain_name" {
   description = "Per region domain name means that Subspace UI domain will be accessible on vpn.<region>.<root_domain> instead of regular vpn.<root_domain>"
 }
 
-variable "key_pair_name" {
-  default     = ""
-  description = "EC2 instance keyname that can be used for SSH access directly to the EC2 instance or as a Jump host as a VPN alternative."
+variable "logs_retention_period" {
+  type        = number
+  default     = 90 # three months
+  description = "Number of days how long the WireGuard logs will be kept in the CloudWatch storage."
 }
 
 variable "wg_ipv4_network" {

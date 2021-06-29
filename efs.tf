@@ -1,7 +1,8 @@
 resource "aws_efs_file_system" "wg" {
   creation_token = local.cluster_name
 
-  encrypted = true
+  encrypted  = true
+  kms_key_id = null #default
 
   tags = {
     Name = local.display_name

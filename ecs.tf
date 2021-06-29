@@ -40,7 +40,8 @@ data "aws_ami" "vpn" {
 
 
 resource "aws_cloudwatch_log_group" "vpn" {
-  name = local.loggroup_path
+  name              = local.loggroup_path
+  retention_in_days = var.logs_retention_period
 
   tags = merge(var.additional_tags, {})
 }
@@ -56,14 +57,16 @@ resource "aws_ecs_task_definition" "wg_subspace" {
   volume {
     name = "wgdata"
     efs_volume_configuration {
-      file_system_id = aws_efs_file_system.wg.id
+      file_system_id     = aws_efs_file_system.wg.id
+      transit_encryption = "ENABLED"
     }
   }
 
   volume {
     name = "wgdnsmasq"
     efs_volume_configuration {
-      file_system_id = aws_efs_file_system.wg.id
+      file_system_id     = aws_efs_file_system.wg.id
+      transit_encryption = "ENABLED"
     }
   }
 
