@@ -1,12 +1,27 @@
 # Wireguard Terraform module
 
-Wireguard module installs the Wireguard VPN Server on the Ubuntu 20.04 AMI along with 
-[Subspace UI](https://github.com/subspacecommunity/subspace) that is used to manage Wireguard's Peer keys.
+The WireGuard terraform module combines WireGuard kernel module (core component) and
+[Subspace UI](https://github.com/subspacecommunity/subspace) utilized to manage WireGuard's Peer keys, 
+to provide high-available VPN server with the self-service user portal.
 
-```
-Note: This module disables DNS service deployed on the Subspace docker container because of conflicts
-with the EC2 system-resolver service.  
-```
+# Overview
+
+This module utilizes AWS ECS platform and ASG (AutoScalingGroup) in order to provide scalable API, 
+AWS EFS to store peer keys and Route53 to route the network traffic globally. 
+In order to provide high security standard, in-transit encryption is enabled both for
+internet (between clients and a server) and intra-net communication (between a server and EFS). 
+Moreover, EFS encrypts data at-rest and allows access only to a WireGuard's ECS instance.
+
+### Features
+
+- Self-healing WireGuard/Subspace API
+- MultiAZ scaling support
+- Encrypted and HighAvailable EFS (regional) storage
+- Subspace UI with self-service option (SAML authentication must be enabled) 
+
+### Security Disclaimer
+Although we aim to achieve the highest data security standards, we are aware that our approach 
+has certain drawbacks, so please use this module with caution.
 
 # Usage
 ```
