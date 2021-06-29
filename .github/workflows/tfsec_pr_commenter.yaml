@@ -1,0 +1,16 @@
+name: tfsec-pr-commenter
+on:
+  pull_request:
+jobs:
+  tfsec:
+    name: TFSec PR Commenter
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@master
+
+      - name: TFSec
+        uses: tfsec/tfsec-pr-commenter-action@main
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
