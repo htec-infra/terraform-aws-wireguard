@@ -35,7 +35,7 @@ variable "subnet_ids" {
 
 variable "instance_type" {
   type        = string
-  default     = "t3.micro"
+  default     = "t3.nano"
   description = "EC2 instance type"
 }
 
@@ -97,7 +97,7 @@ variable "subspace_container_cpu" {
 
 variable "subspace_container_memory" {
   type    = number
-  default = 725
+  default = 420
 }
 
 variable "subspace_theme" {

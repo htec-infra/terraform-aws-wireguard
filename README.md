@@ -109,7 +109,7 @@ No modules.
 | <a name="input_cost_center"></a> [cost\_center](#input\_cost\_center) | Resource tag for easier billing search and reports | `string` | n/a | yes |
 | <a name="input_env_code"></a> [env\_code](#input\_env\_code) | Short environment name tag (e.g. dev, stg, prod) | `string` | n/a | yes |
 | <a name="input_environment"></a> [environment](#input\_environment) | Full environment name tag (e.g. Development, Staging, Production) | `string` | n/a | yes |
-| <a name="input_instance_type"></a> [instance\_type](#input\_instance\_type) | EC2 instance type | `string` | `"t3.micro"` | no |
+| <a name="input_instance_type"></a> [instance\_type](#input\_instance\_type) | EC2 instance type | `string` | `"t3.nano"` | no |
 | <a name="input_logs_retention_period"></a> [logs\_retention\_period](#input\_logs\_retention\_period) | Number of days how long the WireGuard logs will be kept in the CloudWatch storage. | `number` | `90` | no |
 | <a name="input_namespace"></a> [namespace](#input\_namespace) | Project namespace | `any` | n/a | yes |
 | <a name="input_per_region_domain_name"></a> [per\_region\_domain\_name](#input\_per\_region\_domain\_name) | Per region domain name means that Subspace UI domain will be accessible on vpn.<region>.<root\_domain> instead of regular vpn.<root\_domain> | `bool` | `false` | no |
@@ -117,7 +117,7 @@ No modules.
 | <a name="input_security_group_id"></a> [security\_group\_id](#input\_security\_group\_id) | List of Security Groups associated to the Wireguard instance | `list(string)` | `[]` | no |
 | <a name="input_subnet_ids"></a> [subnet\_ids](#input\_subnet\_ids) | VPC subnet(s) identifier where to instantiate VPN server. Min 1 subnet id is required | `list(string)` | n/a | yes |
 | <a name="input_subspace_container_cpu"></a> [subspace\_container\_cpu](#input\_subspace\_container\_cpu) | n/a | `number` | `1500` | no |
-| <a name="input_subspace_container_memory"></a> [subspace\_container\_memory](#input\_subspace\_container\_memory) | n/a | `number` | `725` | no |
+| <a name="input_subspace_container_memory"></a> [subspace\_container\_memory](#input\_subspace\_container\_memory) | n/a | `number` | `420` | no |
 | <a name="input_subspace_image"></a> [subspace\_image](#input\_subspace\_image) | Subspace UI docker image | `string` | `"subspacecommunity/subspace"` | no |
 | <a name="input_subspace_nameservers"></a> [subspace\_nameservers](#input\_subspace\_nameservers) | n/a | `list(string)` | `[]` | no |
 | <a name="input_subspace_subdomain"></a> [subspace\_subdomain](#input\_subspace\_subdomain) | n/a | `string` | `"vpn"` | no |
