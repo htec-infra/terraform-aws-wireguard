@@ -1,6 +1,6 @@
-# Wireguard Terraform module
+# WireGuard&reg; Terraform module
 
-The WireGuard terraform module combines WireGuard kernel module (core component) and
+The WireGuard&reg; terraform module combines WireGuard&reg; kernel module (core component) and
 [Subspace UI](https://github.com/subspacecommunity/subspace) utilized to manage WireGuard's Peer keys, 
 to provide high-available VPN server with the self-service user portal.
 
