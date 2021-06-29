@@ -1,0 +1,26 @@
+name: tfsec
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+jobs:
+  tfsec:
+    name: TFSec Sarif Report
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clone Repo
+        uses: actions/checkout@master
+
+      - name: TFSec
+        uses: tfsec/tfsec-sarif-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          sarif_file:  tfsec.sarif
+
+      - name: Upload SARIF file
+        uses: github/codeql-action/upload-sarif@v1
+        with:
+          sarif_file: tfsec.sarif
