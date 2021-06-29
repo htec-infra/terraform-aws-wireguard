@@ -19,6 +19,7 @@ resource "aws_efs_mount_target" "wg" {
 
 resource "aws_security_group" "wg_efs" {
   name_prefix = "wireguard-efs-mount-target-"
+  description = "Allow NFS traffic from VPN Server instance"
   vpc_id      = data.aws_subnet.this.vpc_id
 
   # Allow NFS port only
