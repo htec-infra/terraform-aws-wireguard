@@ -21,8 +21,8 @@ resource "aws_security_group" "vpn" {
     protocol         = "TCP"
     from_port        = 80
     to_port          = 80
-    cidr_blocks      = var.ingress_cidr_blocks
-    ipv6_cidr_blocks = var.ingress_ipv6_cidr_blocks
+    cidr_blocks      = var.ingress_cidr_blocks #tfsec:ignore:aws-vpc-no-public-ingress-sgr
+    ipv6_cidr_blocks = var.ingress_ipv6_cidr_blocks #tfsec:ignore:aws-vpc-no-public-ingress-sgr
     description      = "Allow HTTP traffic"
   }
 
@@ -30,17 +30,17 @@ resource "aws_security_group" "vpn" {
     protocol         = "TCP"
     from_port        = 443
     to_port          = 443
-    cidr_blocks      = var.ingress_cidr_blocks
-    ipv6_cidr_blocks = var.ingress_ipv6_cidr_blocks
+    cidr_blocks      = var.ingress_cidr_blocks #tfsec:ignore:aws-vpc-no-public-ingress-sgr
+    ipv6_cidr_blocks = var.ingress_ipv6_cidr_blocks #tfsec:ignore:aws-vpc-no-public-ingress-sgr
     description      = "Allow HTTPS traffic"
   }
 
   ingress {
     protocol         = "UDP"
-    from_port        = 51820
-    to_port          = 51820
-    cidr_blocks      = var.ingress_cidr_blocks
-    ipv6_cidr_blocks = var.ingress_ipv6_cidr_blocks
+    from_port        = var.wireguard_ingress_settings["from_port"]
+    to_port          = var.wireguard_ingress_settings["to_port"]
+    cidr_blocks      = var.ingress_cidr_blocks #tfsec:ignore:aws-vpc-no-public-ingress-sgr
+    ipv6_cidr_blocks = var.ingress_ipv6_cidr_blocks #tfsec:ignore:aws-vpc-no-public-ingress-sgr
     description      = "Wireguard VPN port"
   }
 
@@ -48,7 +48,7 @@ resource "aws_security_group" "vpn" {
     protocol    = "-1"
     from_port   = 0
     to_port     = 0
-    cidr_blocks = var.egress_cidr_blocks
+    cidr_blocks = var.egress_cidr_blocks #tfsec:ignore:aws-ec2-no-public-egress-sgr
     description = "Allow outbound connection to everywhere"
   }
 
