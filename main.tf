@@ -90,6 +90,10 @@ resource "aws_launch_template" "vpn" {
     enabled = true
   }
 
+  metadata_options {
+    http_tokens = "required"
+  }
+  
   tag_specifications {
     resource_type = "instance"
     tags = {
