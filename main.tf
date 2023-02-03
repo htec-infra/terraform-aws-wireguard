@@ -14,7 +14,7 @@ resource "aws_eip" "vpn" {
 
 resource "aws_security_group" "vpn" {
   name_prefix = "vpn-server-entry-point-"
-  description = "Allows SSH, HTTP/HTTPS and WireGuard VPN traffic"
+  description = "Allows HTTP/HTTPS and WireGuard VPN traffic"
   vpc_id      = data.aws_subnet.this.vpc_id
 
   ingress {
@@ -23,7 +23,7 @@ resource "aws_security_group" "vpn" {
     to_port          = 80
     cidr_blocks      = ["0.0.0.0/0"]
     ipv6_cidr_blocks = ["::/0"]
-    description      = ""
+    description      = "Allow HTTP traffic"
   }
 
   ingress {
@@ -32,7 +32,7 @@ resource "aws_security_group" "vpn" {
     to_port          = 443
     cidr_blocks      = ["0.0.0.0/0"]
     ipv6_cidr_blocks = ["::/0"]
-    description      = ""
+    description      = "Allow HTTPS traffic"
   }
 
   ingress {
@@ -41,7 +41,7 @@ resource "aws_security_group" "vpn" {
     to_port          = 51820
     cidr_blocks      = ["0.0.0.0/0"]
     ipv6_cidr_blocks = ["::/0"]
-    description      = ""
+    description      = "Wireguard VPN port"
   }
 
   egress {
@@ -49,6 +49,7 @@ resource "aws_security_group" "vpn" {
     from_port   = 0
     to_port     = 0
     cidr_blocks = ["0.0.0.0/0"]
+    description = "Allow outbound connection to everywhere"
   }
 
   lifecycle {
@@ -93,7 +94,7 @@ resource "aws_launch_template" "vpn" {
   metadata_options {
     http_tokens = "required"
   }
-  
+
   tag_specifications {
     resource_type = "instance"
     tags = {
