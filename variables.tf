@@ -33,6 +33,24 @@ variable "subnet_ids" {
   type        = list(string)
 }
 
+variable "ingress_cidr_blocks" {
+  type        = list(string)
+  default     = ["0.0.0.0/0"]
+  description = "CIDR blocks allowed for incoming traffic"
+}
+
+variable "ingress_ipv6_cidr_blocks" {
+  type        = list(string)
+  default     = ["::/0"]
+  description = "CIDR blocks allowed for incoming traffic"
+}
+
+variable "egress_cidr_blocks" {
+  type        = list(string)
+  default     = ["0.0.0.0/0"]
+  description = "CIDR blocks allowed for outgoing traffic"
+}
+
 variable "instance_type" {
   type        = string
   default     = "t3.micro"
