@@ -46,6 +46,6 @@ data "aws_iam_policy_document" "inline" {
       "ec2:DescribeAddresses",
       "ec2:AssociateAddress"
     ]
-    resources = ["*"]
+    resources = ["arn:aws:ec2:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:address/*"]
   }
 }

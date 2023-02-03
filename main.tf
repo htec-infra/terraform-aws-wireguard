@@ -14,41 +14,42 @@ resource "aws_eip" "vpn" {
 
 resource "aws_security_group" "vpn" {
   name_prefix = "vpn-server-entry-point-"
-  description = "Allows SSH, HTTP/HTTPS and WireGuard VPN traffic"
+  description = "Allows HTTP/HTTPS and WireGuard VPN traffic"
   vpc_id      = data.aws_subnet.this.vpc_id
 
   ingress {
     protocol         = "TCP"
     from_port        = 80
     to_port          = 80
-    cidr_blocks      = ["0.0.0.0/0"]
-    ipv6_cidr_blocks = ["::/0"]
-    description      = ""
+    cidr_blocks      = var.ingress_cidr_blocks #tfsec:ignore:aws-vpc-no-public-ingress-sgr
+    ipv6_cidr_blocks = var.ingress_ipv6_cidr_blocks #tfsec:ignore:aws-vpc-no-public-ingress-sgr
+    description      = "Allow HTTP traffic for Let's Encrypt certbot"
   }
 
   ingress {
     protocol         = "TCP"
     from_port        = 443
     to_port          = 443
-    cidr_blocks      = ["0.0.0.0/0"]
-    ipv6_cidr_blocks = ["::/0"]
-    description      = ""
+    cidr_blocks      = var.ingress_cidr_blocks #tfsec:ignore:aws-vpc-no-public-ingress-sgr
+    ipv6_cidr_blocks = var.ingress_ipv6_cidr_blocks #tfsec:ignore:aws-vpc-no-public-ingress-sgr
+    description      = "Allow HTTPS traffic for Subspace UI / Key Management"
   }
 
   ingress {
     protocol         = "UDP"
-    from_port        = 51820
-    to_port          = 51820
-    cidr_blocks      = ["0.0.0.0/0"]
-    ipv6_cidr_blocks = ["::/0"]
-    description      = ""
+    from_port        = var.wireguard_ingress_settings["from_port"]
+    to_port          = var.wireguard_ingress_settings["to_port"]
+    cidr_blocks      = var.ingress_cidr_blocks #tfsec:ignore:aws-vpc-no-public-ingress-sgr
+    ipv6_cidr_blocks = var.ingress_ipv6_cidr_blocks #tfsec:ignore:aws-vpc-no-public-ingress-sgr
+    description      = "Wireguard server/s VPN port/s range"
   }
 
   egress {
     protocol    = "-1"
     from_port   = 0
     to_port     = 0
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = var.egress_cidr_blocks #tfsec:ignore:aws-ec2-no-public-egress-sgr
+    description = "Allow outbound connection to everywhere"
   }
 
   lifecycle {
@@ -88,6 +89,11 @@ resource "aws_launch_template" "vpn" {
 
   monitoring {
     enabled = true
+  }
+
+  metadata_options {
+    http_endpoint = "enabled"
+    http_tokens = "required"
   }
 
   tag_specifications {

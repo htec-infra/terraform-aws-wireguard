@@ -21,6 +21,11 @@ yum_repos:
 runcmd:
   - echo ECS_CLUSTER=${cluster_name} > /etc/ecs/ecs.config
   # install wireguard module
+  - yum upgrade -y
+  - yum install epel-release -y
+  - yum install kernel-headers-"$(uname -r)" kernel-devel-"$(uname -r)" -y
+  - yum config-manager --set-enabled PowerTools
+  - yum copr enable jdoss/wireguard -y
   - yum install wireguard-dkms wireguard-tools -y
 
   # enable module

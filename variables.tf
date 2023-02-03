@@ -33,9 +33,36 @@ variable "subnet_ids" {
   type        = list(string)
 }
 
+variable "ingress_cidr_blocks" {
+  type        = list(string)
+  default     = ["0.0.0.0/0"]
+  description = "CIDR blocks allowed for incoming traffic"
+}
+
+variable "ingress_ipv6_cidr_blocks" {
+  type        = list(string)
+  default     = ["::/0"]
+  description = "CIDR blocks allowed for incoming IPv6 traffic"
+}
+
+variable "wireguard_ingress_settings" {
+  type = map(string)
+  default = {
+    from_port = 51820,
+    to_port = 51820
+  }
+  description = "Wireguard server/s port range"
+}
+
+variable "egress_cidr_blocks" {
+  type        = list(string)
+  default     = ["0.0.0.0/0"]
+  description = "CIDR blocks allowed for outgoing traffic"
+}
+
 variable "instance_type" {
   type        = string
-  default     = "t3.nano"
+  default     = "t3.micro"
   description = "EC2 instance type"
 }
 
@@ -92,7 +119,7 @@ variable "subspace_version" {
 
 variable "subspace_container_cpu" {
   type    = number
-  default = 1500
+  default = 800
 }
 
 variable "subspace_container_memory" {
