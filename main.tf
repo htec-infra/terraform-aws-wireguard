@@ -92,6 +92,7 @@ resource "aws_launch_template" "vpn" {
   }
 
   metadata_options {
+    http_endpoint = "enabled"
     http_tokens = "required"
   }
 
