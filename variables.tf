@@ -51,6 +51,7 @@ variable "wireguard_ingress_settings" {
     from_port = 51820,
     to_port = 51820
   }
+  description = "Wireguard server/s port range"
 }
 
 variable "egress_cidr_blocks" {

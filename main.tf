@@ -23,7 +23,7 @@ resource "aws_security_group" "vpn" {
     to_port          = 80
     cidr_blocks      = var.ingress_cidr_blocks #tfsec:ignore:aws-vpc-no-public-ingress-sgr
     ipv6_cidr_blocks = var.ingress_ipv6_cidr_blocks #tfsec:ignore:aws-vpc-no-public-ingress-sgr
-    description      = "Allow HTTP traffic"
+    description      = "Allow HTTP traffic for Let's Encrypt certbot"
   }
 
   ingress {
@@ -32,7 +32,7 @@ resource "aws_security_group" "vpn" {
     to_port          = 443
     cidr_blocks      = var.ingress_cidr_blocks #tfsec:ignore:aws-vpc-no-public-ingress-sgr
     ipv6_cidr_blocks = var.ingress_ipv6_cidr_blocks #tfsec:ignore:aws-vpc-no-public-ingress-sgr
-    description      = "Allow HTTPS traffic"
+    description      = "Allow HTTPS traffic for Subspace UI / Key Management"
   }
 
   ingress {
@@ -41,7 +41,7 @@ resource "aws_security_group" "vpn" {
     to_port          = var.wireguard_ingress_settings["to_port"]
     cidr_blocks      = var.ingress_cidr_blocks #tfsec:ignore:aws-vpc-no-public-ingress-sgr
     ipv6_cidr_blocks = var.ingress_ipv6_cidr_blocks #tfsec:ignore:aws-vpc-no-public-ingress-sgr
-    description      = "Wireguard VPN port"
+    description      = "Wireguard server/s VPN port/s range"
   }
 
   egress {
